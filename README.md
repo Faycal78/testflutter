@@ -1,117 +1,179 @@
-# TestFlutter
+# Projet Full-Stack : Backend Laravel & Application Flutter
 
-TestFlutter est une application Flutter de démonstration qui illustre l'intégration d'un backend Laravel via une API REST. Ce projet comprend une interface utilisateur moderne pour la connexion, la gestion des demandes de service, la soumission d'offres et bien plus encore.
+Ce projet est une application full-stack qui combine un backend Laravel exposant une API REST et une application mobile Flutter consommant cette API.  
+L'API gère l'authentification, la gestion des demandes de service et la soumission d'offres, tandis que l'application Flutter fournit une interface utilisateur moderne pour interagir avec ces fonctionnalités.
 
-## Table des matières
+---
 
-- [Description](#description)
-- [Fonctionnalités](#fonctionnalités)
-- [Architecture](#architecture)
-- [Installation](#installation)
-  - [Prérequis](#prérequis)
-  - [Configuration du Backend Laravel](#configuration-du-backend-laravel)
-  - [Configuration de l'Application Flutter](#configuration-de-lapplication-flutter)
-- [Utilisation](#utilisation)
+## Table des Matières
+
+- [Architecture du Projet](#architecture-du-projet)
+- [Backend Laravel](#backend-laravel)
+  - [Installation et Configuration](#installation-et-configuration)
+  - [Principales Fonctionnalités et Classes](#principales-fonctionnalités-et-classes)
+- [Application Flutter](#application-flutter)
+  - [Installation et Configuration](#installation-et-configuration-1)
+  - [Principales Fonctionnalités et Classes](#principales-fonctionnalités-et-classes-1)
+- [Communication entre Laravel et Flutter](#communication-entre-laravel-et-flutter)
 - [Déploiement](#déploiement)
-- [Contribuer](#contribuer)
+- [Contribution](#contribution)
 - [Licence](#licence)
 - [Contact](#contact)
 
-## Description
+---
 
-TestFlutter est un exemple d'application mobile développée avec Flutter qui se connecte à un backend Laravel exposé via une API REST. L'application permet aux utilisateurs de :
-- Se connecter et obtenir un token d'authentification
-- Créer et consulter des demandes de service
-- Soumettre des offres pour des demandes de service
+## Architecture du Projet
 
-Le backend Laravel est exposé publiquement via un tunnel ngrok, ce qui facilite les tests depuis n'importe quel appareil connecté.
-
-## Fonctionnalités
-
-- **Authentification** : Connexion sécurisée avec gestion du token.
-- **Gestion des demandes** : Création et affichage de demandes de service.
-- **Soumission d'offres** : Permet aux fournisseurs de soumettre des offres pour une demande.
-- **Interface moderne** : UI responsive et design moderne avec Flutter.
-- **Intégration backend** : Communication avec un backend Laravel via API REST.
-
-## Architecture
-
-Le projet se compose de deux parties principales :
+Le projet est divisé en deux parties principales :
 
 1. **Backend Laravel**  
-   - Fournit une API REST sécurisée (routes d'authentification, gestion des demandes et offres).
-
+   - Expose une API REST sécurisée (authentification, gestion des demandes, offres, etc.).
+   - Utilise des migrations, des modèles Eloquent, et des contrôleurs pour gérer la logique métier.
+   - Est exposé en développement via ngrok pour permettre son accès depuis l'application mobile.
 
 2. **Application Flutter**  
-   - Interface utilisateur développée avec Flutter.
-   - Utilise le package [http](https://pub.dev/packages/http) pour communiquer avec l'API.
-   - Gère l'authentification, les requêtes de création et de consultation des demandes, ainsi que la soumission d'offres.
+   - Fournit une interface utilisateur moderne pour se connecter, consulter les demandes et soumettre des offres.
+   - Utilise le package `http` pour consommer l'API du backend.
+   - Gère le stockage local du token d'authentification via une classe utilitaire (SharedPrefs).
 
-## Installation
+---
 
-### Prérequis
+## Backend Laravel
 
-- [Flutter SDK](https://flutter.dev/docs/get-started/install)
-- [Dart SDK](https://dart.dev/get-dart)
-- [Laravel](https://laravel.com/docs) (pour le backend)
+### Installation et Configuration
 
-- Git
-
-### Configuration du Backend Laravel
-
-1. **Cloner le dépôt Laravel** (ou créer votre application Laravel) et naviguer dans le dossier du projet.
-
-2. **Installer les dépendances** :
+1. **Cloner le dépôt et installer les dépendances**  
    ```bash
+   git clone https://github.com/YourUsername/laravel-backend.git
+   cd laravel-backend
    composer install
-Configurer le fichier .env (copiez .env.example en .env) et mettez à jour vos paramètres de base de données.
-
-Générer la clé de l'application :
+Configurer l'environnement
+Copier le fichier .env.example en .env et mettre à jour les informations de connexion à la base de données.
 
 bash
 Copier
+cp .env.example .env
 php artisan key:generate
-Migrer la base de données et semer les tables :
+Migrer et semer la base de données
 
 bash
 Copier
 php artisan migrate --seed
-Lancer Laravel sur toutes les interfaces :
+Lancer le serveur Laravel
+Pour le développement, utilisez :
 
 bash
 Copier
 php artisan serve --host=0.0.0.0 --port=8000
-
-
-Copiez l'URL fournie par ngrok et mettez-la à jour dans le code Flutter (dans ApiService.baseUrl).
-
-Configuration de l'Application Flutter
-Cloner ce dépôt ou placez-vous dans le dossier du projet Flutter.
-
-Installer les dépendances Flutter :
+Puis, pour exposer l'API via ngrok :
 
 bash
 Copier
+ngrok http 8000
+Notez l'URL publique fournie par ngrok (par exemple, https://2258-105-235-132-79.ngrok-free.app).
+
+Principales Fonctionnalités et Classes
+Modèles Eloquent
+
+User : Représente les utilisateurs de l'application.
+
+ServiceRequest : Représente une demande de service créée par un client.
+
+Offer : Représente une offre soumise par un fournisseur pour une demande.
+
+Contrôleurs
+
+AuthController ou les contrôleurs d'authentification (ex. LoginController, RegisteredUserController) gèrent l'inscription, la connexion et la gestion du token.
+
+ServiceRequestController : Gère la création et la consultation des demandes.
+
+OfferController : Gère la soumission et la récupération des offres.
+
+Routes API
+Le fichier routes/api.php définit les endpoints de l'API, par exemple :
+
+POST /api/login pour la connexion.
+
+POST /api/service-requests pour créer une demande.
+
+GET /api/service-requests pour lister les demandes.
+
+POST /api/service-requests/{id}/offers pour soumettre une offre.
+
+GET /api/service-requests/{id}/offers pour lister les offres.
+
+Application Flutter
+Installation et Configuration
+Cloner le dépôt Flutter
+
+bash
+Copier
+git clone https://github.com/YourUsername/flutter-app.git
+cd flutter-app
 flutter pub get
-Mettre à jour l'URL de base dans lib/services/api_service.dart :
+Mettre à jour la configuration de l'API
+Dans le fichier lib/services/api_service.dart, modifiez la variable baseUrl pour qu'elle pointe vers l'URL publique de ngrok :
 
 dart
 Copier
-
-Lancer l'application sur un émulateur ou un appareil réel :
+static const String baseUrl = 'https://2258-105-235-132-79.ngrok-free.app/api';
+Lancer l'application
+Lancez l'application sur un émulateur ou un appareil réel :
 
 bash
 Copier
 flutter run
-Utilisation
-Écran de connexion
-Saisissez votre adresse e-mail et votre mot de passe pour vous connecter. Si la connexion est réussie, vous serez redirigé vers l'écran de gestion des demandes de service.
+Principales Fonctionnalités et Classes
+ApiService.dart
 
-Gestion des demandes de service
-Vous pouvez créer, consulter et gérer vos demandes de service.
+Gère les appels HTTP vers l'API Laravel.
 
-Soumission d'offres
-Les fournisseurs peuvent consulter les demandes et soumettre leurs offres.
+Contient des fonctions comme login, createServiceRequest, fetchServiceRequests, submitOffer et fetchOffers.
+
+Utilise un client HTTP personnalisé qui accepte tous les certificats (utile en développement avec ngrok).
+
+LoginResponse.dart
+
+Classe modèle qui décode la réponse de connexion et stocke le token d'authentification.
+
+Exemple :
+
+dart
+Copier
+class LoginResponse {
+  final String token;
+
+  LoginResponse({required this.token});
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
+      token: json['token'] ?? '',
+    );
+  }
+}
+LoginScreen.dart
+
+Écran de connexion avec un design moderne (fond dégradé, carte de connexion, champs pour l'email et le mot de passe, bouton de connexion).
+
+La fonction _login envoie la requête à l'API et redirige l'utilisateur en cas de succès ou affiche un message d'erreur avec un SnackBar en cas d'échec.
+
+ServiceRequestsListScreen.dart
+
+Écran de destination après une connexion réussie, où les demandes de service sont listées (à adapter selon votre logique).
+
+Communication entre Laravel et Flutter
+Authentification
+Lors de la connexion, Flutter envoie une requête POST à https://2258-105-235-132-79.ngrok-free.app/api/login avec les identifiants. Le backend Laravel renvoie un token qui est stocké localement via SharedPrefs.
+
+Utilisation du Token
+Toutes les requêtes ultérieures vers l'API (création de demande, soumission d'offre, etc.) incluent le token dans l'en-tête Authorization: Bearer <token>.
 
 Déploiement
-Pour déployer votre backend en production, vous pouvez utiliser un hébergeur compatible avec Laravel et configurer un domaine sécurisé (HTTPS). Mettez à jour l'URL dans l'application Flutter en conséquence.
+Backend Laravel
+Pour la production, déployez votre application Laravel sur un hébergeur compatible (Heroku, DigitalOcean, etc.) avec un domaine et un certificat SSL valide.
+Mettez à jour la variable baseUrl dans Flutter pour pointer vers la nouvelle URL.
+
+Application Flutter
+Pour la production, générez les builds pour iOS et Android en suivant la documentation officielle de Flutter.
+
+
