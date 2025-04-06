@@ -1,66 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TestFlutter
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+TestFlutter est une application Flutter de démonstration qui illustre l'intégration d'un backend Laravel via une API REST. Ce projet comprend une interface utilisateur moderne pour la connexion, la gestion des demandes de service, la soumission d'offres et bien plus encore.
 
-## About Laravel
+## Table des matières
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Description](#description)
+- [Fonctionnalités](#fonctionnalités)
+- [Architecture](#architecture)
+- [Installation](#installation)
+  - [Prérequis](#prérequis)
+  - [Configuration du Backend Laravel](#configuration-du-backend-laravel)
+  - [Configuration de l'Application Flutter](#configuration-de-lapplication-flutter)
+- [Utilisation](#utilisation)
+- [Déploiement](#déploiement)
+- [Contribuer](#contribuer)
+- [Licence](#licence)
+- [Contact](#contact)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Description
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+TestFlutter est un exemple d'application mobile développée avec Flutter qui se connecte à un backend Laravel exposé via une API REST. L'application permet aux utilisateurs de :
+- Se connecter et obtenir un token d'authentification
+- Créer et consulter des demandes de service
+- Soumettre des offres pour des demandes de service
 
-## Learning Laravel
+Le backend Laravel est exposé publiquement via un tunnel ngrok, ce qui facilite les tests depuis n'importe quel appareil connecté.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Fonctionnalités
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Authentification** : Connexion sécurisée avec gestion du token.
+- **Gestion des demandes** : Création et affichage de demandes de service.
+- **Soumission d'offres** : Permet aux fournisseurs de soumettre des offres pour une demande.
+- **Interface moderne** : UI responsive et design moderne avec Flutter.
+- **Intégration backend** : Communication avec un backend Laravel via API REST.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Architecture
 
-## Laravel Sponsors
+Le projet se compose de deux parties principales :
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Backend Laravel**  
+   - Fournit une API REST sécurisée (routes d'authentification, gestion des demandes et offres).
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Application Flutter**  
+   - Interface utilisateur développée avec Flutter.
+   - Utilise le package [http](https://pub.dev/packages/http) pour communiquer avec l'API.
+   - Gère l'authentification, les requêtes de création et de consultation des demandes, ainsi que la soumission d'offres.
 
-## Contributing
+## Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prérequis
 
-## Code of Conduct
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [Dart SDK](https://dart.dev/get-dart)
+- [Laravel](https://laravel.com/docs) (pour le backend)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Git
 
-## Security Vulnerabilities
+### Configuration du Backend Laravel
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Cloner le dépôt Laravel** (ou créer votre application Laravel) et naviguer dans le dossier du projet.
 
-## License
+2. **Installer les dépendances** :
+   ```bash
+   composer install
+Configurer le fichier .env (copiez .env.example en .env) et mettez à jour vos paramètres de base de données.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Générer la clé de l'application :
+
+bash
+Copier
+php artisan key:generate
+Migrer la base de données et semer les tables :
+
+bash
+Copier
+php artisan migrate --seed
+Lancer Laravel sur toutes les interfaces :
+
+bash
+Copier
+php artisan serve --host=0.0.0.0 --port=8000
+
+
+Copiez l'URL fournie par ngrok et mettez-la à jour dans le code Flutter (dans ApiService.baseUrl).
+
+Configuration de l'Application Flutter
+Cloner ce dépôt ou placez-vous dans le dossier du projet Flutter.
+
+Installer les dépendances Flutter :
+
+bash
+Copier
+flutter pub get
+Mettre à jour l'URL de base dans lib/services/api_service.dart :
+
+dart
+Copier
+
+Lancer l'application sur un émulateur ou un appareil réel :
+
+bash
+Copier
+flutter run
+Utilisation
+Écran de connexion
+Saisissez votre adresse e-mail et votre mot de passe pour vous connecter. Si la connexion est réussie, vous serez redirigé vers l'écran de gestion des demandes de service.
+
+Gestion des demandes de service
+Vous pouvez créer, consulter et gérer vos demandes de service.
+
+Soumission d'offres
+Les fournisseurs peuvent consulter les demandes et soumettre leurs offres.
+
+Déploiement
+Pour déployer votre backend en production, vous pouvez utiliser un hébergeur compatible avec Laravel et configurer un domaine sécurisé (HTTPS). Mettez à jour l'URL dans l'application Flutter en conséquence.
